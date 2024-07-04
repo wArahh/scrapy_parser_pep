@@ -5,7 +5,7 @@ RESULTS_DIR = 'results'
 BOT_NAME = 'pep_parse'
 
 SPIDER_MODULES = ['pep_parse.spiders']
-NEWSPIDER_MODULE = [spider for spider in SPIDER_MODULES]
+NEWSPIDER_MODULE = SPIDER_MODULES[0]
 ROBOTSTXT_OBEY = True
 
 ITEM_PIPELINES = {

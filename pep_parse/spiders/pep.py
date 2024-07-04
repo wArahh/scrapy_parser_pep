@@ -16,13 +16,9 @@ class PepSpider(scrapy.Spider):
             yield response.follow(PEP_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
-        find_title = 'h1.page-title'
+        find_title = response.css('h1.page-title')
         yield PepParseItem(
-            dict(
-                number=response.css(find_title).re_first(r'PEP (\d+)'),
-                name=response.css(
-                    f'{find_title}::text'
-                ).re_first(r'PEP \d+ – (.+)'),
-                status=response.css('dd.field-even abbr::text').get()
-            )
+            number=find_title.re_first(r'PEP (\d+)'),
+            name=find_title.re_first(r'PEP \d+ – (.+)'),
+            status=response.css('dd.field-even abbr::text').get()
         )
