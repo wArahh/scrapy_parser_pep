@@ -1,9 +1,10 @@
 import csv
+import os
+
 from collections import defaultdict
 from datetime import datetime
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from .settings import BASE_DIR, RESULTS_DIR
 
 
 class PepParsePipeline:
@@ -11,18 +12,22 @@ class PepParsePipeline:
         self.stats = defaultdict(int)
 
     def process_item(self, item, spider):
-        status = item.get('status')
-        if status:
-            self.stats[status] += 1
+        self.stats[item.get('status')] += 1
         return item
 
     def close_spider(self, spider):
+        if not os.path.exists(RESULTS_DIR):
+            os.makedirs(RESULTS_DIR)
         timestamp = datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
-        filename = f'{BASE_DIR}/results/status_summary_{timestamp}.csv'
-        with open(filename, mode='w', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow(['Статус', 'Количество'])
-            for status, count in self.stats.items():
-                writer.writerow([status, count])
-            total_count = sum(self.stats.values())
-            writer.writerow(['Total', total_count])
+        with open(
+                f'{BASE_DIR/RESULTS_DIR}/status_summary_{timestamp}.csv',
+                mode='w',
+                encoding='utf-8',
+                newline='',
+        ) as f:
+            writer = csv.writer(f, dialect='excel')
+            writer.writerows([
+                ['Статус', 'Количество'],
+                *self.stats.items(),
+                ['Total', sum(self.stats.values())]
+            ])

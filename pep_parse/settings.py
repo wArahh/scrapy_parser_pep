@@ -1,7 +1,11 @@
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+RESULTS_DIR = 'results'
 BOT_NAME = 'pep_parse'
 
 SPIDER_MODULES = ['pep_parse.spiders']
-NEWSPIDER_MODULE = 'pep_parse.spiders'
+NEWSPIDER_MODULE = [spider for spider in SPIDER_MODULES]
 ROBOTSTXT_OBEY = True
 
 ITEM_PIPELINES = {
@@ -10,9 +14,8 @@ ITEM_PIPELINES = {
 
 
 FEEDS = {
-    'results/pep_%(time)s.csv': {
+    f'{RESULTS_DIR}/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
-        'overwrite': True
     },
 }
