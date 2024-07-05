@@ -7,10 +7,9 @@ from .settings import BASE_DIR, RESULTS_DIR
 
 
 class PepParsePipeline:
-    if not os.path.exists(RESULTS_DIR):
-        os.makedirs(RESULTS_DIR)
 
     def open_spider(self, spider):
+        os.makedirs(RESULTS_DIR, exist_ok=True)
         self.stats = defaultdict(int)
 
     def process_item(self, item, spider):
@@ -26,8 +25,8 @@ class PepParsePipeline:
             newline='',
         ) as f:
             writer = csv.writer(f, dialect=csv.excel, quoting=csv.QUOTE_MINIMA)
-            writer.writerows([
+            writer.writerows((
                 ('Статус', 'Количество'),
                 *self.stats.items(),
                 ('Total', sum(self.stats.values()))
-            ])
+            ))
