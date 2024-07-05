@@ -4,7 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = 'results'
 BOT_NAME = 'pep_parse'
 NEWSPIDER_MODULE = 'pep_parse.spiders'
-SPIDER_MODULES = list(NEWSPIDER_MODULE)
+SPIDER_MODULES = [NEWSPIDER_MODULE]
 ROBOTSTXT_OBEY = True
 
 ITEM_PIPELINES = {
