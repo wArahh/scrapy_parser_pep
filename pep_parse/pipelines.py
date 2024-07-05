@@ -25,9 +25,13 @@ class PepParsePipeline:
             encoding='utf-8',
             newline='',
         ) as f:
-            writer = csv.writer(f, dialect=csv.excel, quoting=csv.QUOTE_MINIMA)
-            writer.writerows((
-                ('Статус', 'Количество'),
-                *self.stats.items(),
-                ('Total', sum(self.stats.values()))
-            ))
+            csv.writer(
+                f,
+                dialect=csv.excel,
+                quoting=csv.QUOTE_MINIMA).writerows(
+                (
+                    ('Статус', 'Количество'),
+                    *self.stats.items(),
+                    ('Total', sum(self.stats.values()))
+                )
+            )
