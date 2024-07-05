@@ -28,7 +28,8 @@ class PepParsePipeline:
             csv.writer(
                 f,
                 dialect=csv.excel,
-                quoting=csv.QUOTE_MINIMA).writerows(
+                quoting=csv.QUOTE_MINIMA
+            ).writerows(
                 (
                     ('Статус', 'Количество'),
                     *self.stats.items(),
