@@ -7,9 +7,10 @@ from .settings import BASE_DIR, RESULTS_DIR
 
 
 class PepParsePipeline:
+    def __init__(self):
+        os.makedirs(RESULTS_DIR, exist_ok=True)
 
     def open_spider(self, spider):
-        os.makedirs(RESULTS_DIR, exist_ok=True)
         self.stats = defaultdict(int)
 
     def process_item(self, item, spider):
